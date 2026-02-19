@@ -1,0 +1,140 @@
+/* ─── Reset & Base ─── */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+:root {
+	/* White theme palette */
+	--bg-primary: #ffffff;
+	--bg-secondary: #f7f7f8;
+	--bg-card: #ffffff;
+	--bg-card-hover: #f9f9fb;
+	--bg-input: #f3f3f6;
+
+	--text-primary: #111118;
+	--text-secondary: #5a5a6e;
+	--text-muted: #8e8e9f;
+
+	--accent: #111118;
+	--accent-hover: #333340;
+	--accent-dim: rgba(17, 17, 24, 0.06);
+
+	--success: #16a34a;
+	--success-dim: rgba(22, 163, 74, 0.08);
+	--danger: #dc2626;
+	--danger-dim: rgba(220, 38, 38, 0.06);
+	--warning: #d97706;
+	--warning-dim: rgba(217, 119, 6, 0.08);
+
+	--border: #e4e4e8;
+	--border-hover: #c8c8d0;
+
+	--radius: 0px;
+
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+	--shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+	--shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+	--transition: 150ms ease;
+}
+
+html {
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+	color: var(--text-primary);
+	background: var(--bg-primary);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	min-height: 100vh;
+	background: var(--bg-primary);
+}
+
+a {
+	color: var(--text-primary);
+	text-decoration: none;
+	transition: color var(--transition);
+}
+
+a:hover {
+	color: var(--accent-hover);
+}
+
+/* ─── Utility Classes ─── */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 10px;
+	border-radius: var(--radius);
+	font-size: 0.7rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.badge-itau {
+	background: #fff0e6;
+	color: #c45d12;
+	border: 1px solid #f0d0b0;
+}
+
+.badge-nubank {
+	background: #f3e8ff;
+	color: #7c3aed;
+	border: 1px solid #ddd0f0;
+}
+
+.badge-inter {
+	background: #fff3e0;
+	color: #e65100;
+	border: 1px solid #f0d8b0;
+}
+
+.badge-unknown {
+	background: var(--bg-secondary);
+	color: var(--text-secondary);
+	border: 1px solid var(--border);
+}
+
+/* ─── Animations ─── */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
