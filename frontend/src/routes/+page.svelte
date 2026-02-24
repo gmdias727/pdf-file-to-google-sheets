@@ -133,6 +133,19 @@
 		if (bytes < 1024) return `${bytes} B`;
 		return `${(bytes / 1024).toFixed(0)} KB`;
 	};
+
+	let currentPage = $state(1);
+	let itemsPerPage = $state(10);
+	let totalPages = $derived(Math.ceil(transactions.length / itemsPerPage) || 1);
+	
+	$effect(() => {
+		if (currentPage > totalPages) currentPage = totalPages;
+		if (currentPage < 1) currentPage = 1;
+	});
+
+	let paginatedTransactions = $derived(
+		transactions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+	);
 </script>
 
 <!-- ─── Header ─── -->
@@ -542,7 +555,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each transactions as tx, i}
+						{#each paginatedTransactions as tx, i}
 							<tr
 								style="animation: fadeIn {0.03 *
 									Math.min(i, 15)}s ease-out;"
@@ -613,6 +626,37 @@
 						{/each}
 					</tbody>
 				</table>
+			</div>
+
+			<!-- Pagination Controls -->
+			<div class="pagination-controls">
+				<div class="items-per-page">
+					<label for="perPage">Itens por página:</label>
+					<select id="perPage" bind:value={itemsPerPage} onchange={() => currentPage = 1}>
+						<option value={10}>10</option>
+						<option value={25}>25</option>
+						<option value={50}>50</option>
+					</select>
+				</div>
+				<div class="page-navigation">
+					<button 
+						class="btn btn-secondary btn-icon" 
+						disabled={currentPage === 1}
+						onclick={() => currentPage -= 1}
+					>
+						Anterior
+					</button>
+					<span class="page-info">
+						Página {currentPage} de {totalPages}
+					</span>
+					<button 
+						class="btn btn-secondary btn-icon" 
+						disabled={currentPage === totalPages}
+						onclick={() => currentPage += 1}
+					>
+						Próximo
+					</button>
+				</div>
 			</div>
 		</div>
 	{/if}
@@ -963,6 +1007,52 @@
 		margin-bottom: 20px;
 	}
 
+	/* ─── Pagination ─── */
+	.pagination-controls {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 16px 0;
+		margin-top: 10px;
+		flex-wrap: wrap;
+		gap: 16px;
+	}
+
+	.items-per-page {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 0.82rem;
+		color: var(--text-secondary);
+	}
+
+	.items-per-page select {
+		padding: 4px 8px;
+		border-radius: 4px;
+		border: 1px solid var(--border);
+		background-color: var(--bg-primary);
+		color: var(--text-primary);
+		font-size: 0.82rem;
+		cursor: pointer;
+	}
+
+	.page-navigation {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.page-info {
+		font-size: 0.82rem;
+		color: var(--text-secondary);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.btn-icon {
+		padding: 6px 12px;
+		font-size: 0.82rem;
+	}
+
 	/* ─── Table ─── */
 	.table-wrapper {
 		overflow-x: auto;
@@ -1095,6 +1185,15 @@
 
 		.actions-row {
 			flex-direction: column;
+		}
+
+		.pagination-controls {
+			flex-direction: column;
+			align-items: stretch;
+		}
+		
+		.page-navigation {
+			justify-content: space-between;
 		}
 
 		.btn-secondary {
